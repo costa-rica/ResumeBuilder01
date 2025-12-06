@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeBuilder01 - Results</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold">Analysis Results</h1>
+            <a href="/" style="text-decoration: underline; color: var(--primary-black);">Start Over</a>
+        </header>
+
+        <!-- Section 1: Resume Qualifier Match % -->
+        <div class="qualifier-box">
+            <div class="text-xl mb-2">Resume Qualifier Match</div>
+            <div class="score">{{ resume_qualifier_match }}</div>
+        </div>
+
+        <!-- Section 2: Revised Resume -->
+        <div class="section-card">
+            <h2 class="text-2xl font-bold mb-4">Tailored Resume</h2>
+            
+            <div class="revised-score-container">
+                <span class="font-bold">Resume Qualifier Match REVISED:</span>
+                <span class="score" style="font-size: 1.5rem;">{{ revised_match }}</span>
+            </div>
+
+            <div class="resume-content">
+{{ updated_resume }}
+            </div>
+        </div>
+
+        <!-- Section 3: Cover Letter -->
+        <div class="section-card">
+            <h2 class="text-2xl font-bold mb-4">Tailored Cover Letter</h2>
+            <div class="cover-letter-content">
+{{ updated_cover_letter }}
+            </div>
+        </div>
+
+        <!-- Section 4: Suggestions -->
+        <div class="section-card">
+            <h2 class="text-2xl font-bold mb-4">Improvement Suggestions</h2>
+            <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                {% for suggestion in improvements %}
+                <li class="mb-2">{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
