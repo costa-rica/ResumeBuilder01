@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResumeBuilder01 - Results</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <header class="mb-8 text-center">
@@ -21,35 +23,42 @@
 
         <!-- Section 2: Revised Resume -->
         <div class="section-card">
-            <h2 class="text-2xl font-bold mb-4">Tailored Resume</h2>
-            
-            <div class="revised-score-container">
-                <span class="font-bold">Resume Qualifier Match REVISED:</span>
-                <span class="score" style="font-size: 1.5rem;">{{ revised_match }}</span>
-            </div>
+            <details open>
+                <summary class="text-2xl font-bold">Tailored Resume</summary>
 
-            <div class="resume-content">
-{{ updated_resume }}
-            </div>
+                <div class="revised-score-container">
+                    <span class="font-bold">Resume Qualifier Match REVISED:</span>
+                    <span class="score" style="font-size: 1.5rem;">{{ revised_match }}</span>
+                </div>
+
+                <div class="resume-content">
+                    {{ updated_resume | safe }}
+                </div>
+            </details>
         </div>
 
         <!-- Section 3: Cover Letter -->
         <div class="section-card">
-            <h2 class="text-2xl font-bold mb-4">Tailored Cover Letter</h2>
-            <div class="cover-letter-content">
-{{ updated_cover_letter }}
-            </div>
+            <details open>
+                <summary class="text-2xl font-bold">Tailored Cover Letter</summary>
+                <div class="cover-letter-content">
+                    {{ updated_cover_letter | safe }}
+                </div>
+            </details>
         </div>
 
         <!-- Section 4: Suggestions -->
         <div class="section-card">
-            <h2 class="text-2xl font-bold mb-4">Improvement Suggestions</h2>
-            <ul style="list-style-type: disc; padding-left: 1.5rem;">
-                {% for suggestion in improvements %}
-                <li class="mb-2">{{ suggestion }}</li>
-                {% endfor %}
-            </ul>
+            <details open>
+                <summary class="text-2xl font-bold">Improvement Suggestions</summary>
+                <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                    {% for suggestion in improvements %}
+                    <li class="mb-2">{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </details>
         </div>
     </div>
 </body>
+
 </html>

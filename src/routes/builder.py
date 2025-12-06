@@ -6,6 +6,8 @@ import json
 
 from src.utils.file_processing import read_docx, read_prompt_template
 from src.utils.llm_client import generate_tailored_resume
+import markdown
+import markdown
 
 router = APIRouter()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "..", "templates"))
@@ -48,7 +50,7 @@ async def submit(
         })
     # 3. Read the cover letter prompt template
     try:
-        prompt_template_cover_letter = read_prompt_template("src/templates/markdown/prompt03.md")
+        prompt_template_cover_letter = read_prompt_template("src/templates/markdown/prompt04.md")
     except Exception as e:
          return templates.TemplateResponse("index.html", {
             "request": request,
@@ -74,8 +76,8 @@ async def submit(
         "request": request,
         "resume_qualifier_match": f'{llm_result_scoring_and_improvements.get("resume_qualifier_match", "No match generated.")}%',
         "revised_match": f'{llm_result_new_resume_score.get("resume_qualifier_match", "No match generated.")}%',
-        "updated_resume": llm_result_resume.get("updated_resume", "No resume generated."),
-        "updated_cover_letter": llm_result_cover_letter.get("updated_cover_letter", "No cover letter generated."),
+        "updated_resume": markdown.markdown(llm_result_resume.get("updated_resume", "No resume generated.")),
+        "updated_cover_letter": markdown.markdown(llm_result_cover_letter.get("updated_cover_letter", "No cover letter generated.")),
         # "improvements": llm_result_resume.get("improvements_list", [])
         "improvements": llm_result_new_resume_score.get("improvements_list", [])
     })

@@ -4,12 +4,14 @@ You are an expert Technical Recruiter and an advanced Applicant Tracking System 
 ### INPUT DATA ###
 Job Description:
 """
-< Resume of user>
+< Job Requirements >
+
 """
 
 User Resume:
 """
-< Job Requirements >
+< Resume of user>
+
 """
 
 ### INSTRUCTIONS ###

@@ -25,19 +25,44 @@ body {
     padding: 2rem;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     margin-top: 0;
 }
 
 /* Utilities */
-.text-center { text-align: center; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-8 { margin-bottom: 2rem; }
-.mt-4 { margin-top: 1rem; }
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.gap-4 { gap: 1rem; }
-.hidden { display: none; }
+.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.hidden {
+    display: none;
+}
 
 /* Components */
 .section-card {
@@ -58,7 +83,8 @@ label {
     font-weight: bold;
 }
 
-input[type="file"], textarea {
+input[type="file"],
+textarea {
     width: 100%;
     padding: 0.75rem;
     border: var(--border-width) solid var(--primary-black);
@@ -148,13 +174,19 @@ textarea {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Result Page Specifics */
 .qualifier-box {
-    height: 15vh; /* 15% of viewport as requested */
+    height: 15vh;
+    /* 15% of viewport as requested */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -173,17 +205,53 @@ textarea {
 
 .revised-score-container {
     padding: 1rem;
-    background: #f0fdf4; /* Light green tint */
+    background: #f0fdf4;
+    /* Light green tint */
     border: var(--border-width) solid var(--primary-black);
     border-radius: var(--border-radius-xl);
     margin-bottom: 1rem;
     text-align: center;
 }
 
-.resume-content, .cover-letter-content {
-    white-space: pre-wrap; /* Preserve formatting */
+.resume-content,
+.cover-letter-content {
+    /* white-space: pre-wrap; removed to fix excessive gaps with HTML rendering */
     background: #fafafa;
     padding: 1.5rem;
     border: 1px solid #e5e7eb;
     border-radius: var(--border-radius-xl);
+}
+
+.resume-content h1,
+.resume-content h2,
+.resume-content h3,
+.resume-content h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.resume-content p {
+    margin-bottom: 0.5rem;
+}
+
+.resume-content ul {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+.resume-content li {
+    margin-bottom: 0.25rem;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    list-style: none;
+    /* Hide default triangle if preferred, but usually keep it */
+}
+
+details summary::-webkit-details-marker {
+    color: var(--primary-black);
 }
