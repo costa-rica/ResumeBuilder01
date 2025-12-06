@@ -84,7 +84,7 @@ def process_with_doai(prompt: str, model: str = "openai-gpt-oss-120b") -> dict:
             {"role": "user", "content": prompt}
         ],
         # "response_format": {"type": "json_object"}, # Check if DoAI supports this, otherwise rely on prompt
-        "max_tokens": 2048
+        "max_tokens": 4000 # Increased from 2048 to avoid cutoff
     }
 
     try:
