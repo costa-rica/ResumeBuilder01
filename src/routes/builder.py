@@ -40,15 +40,25 @@ async def submit(
 
     # 2. Read the prompt template
     try:
-        prompt_template = read_prompt_template()
+        prompt_template_resume = read_prompt_template("src/templates/markdown/prompt02.md")
+    except Exception as e:
+         return templates.TemplateResponse("index.html", {
+            "request": request,
+             "error": f"Error reading prompt template: {str(e)}"
+        })
+    # 2. Read the cover letter prompt template
+    try:
+        prompt_template_cover_letter = read_prompt_template("src/templates/markdown/prompt03.md")
     except Exception as e:
          return templates.TemplateResponse("index.html", {
             "request": request,
              "error": f"Error reading prompt template: {str(e)}"
         })
 
+
     # 3. Call LLM
-    llm_result = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template)
+    llm_result_resume = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template_resume)
+    llm_result_cover_letter = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template_cover_letter)
 
     # 4. Render Result Page
     # The result should match the keys expected in result.html
@@ -56,7 +66,7 @@ async def submit(
         "request": request,
         "resume_qualifier_match": "85%", # Placeholder
         "revised_match": "95%", # Placeholder
-        "updated_resume": llm_result.get("updated_resume", "No resume generated."),
-        "updated_cover_letter": llm_result.get("updated_cover_letter", "No cover letter generated."),
-        "improvements": llm_result.get("improvements_list", [])
+        "updated_resume": llm_result_resume.get("updated_resume", "No resume generated."),
+        "updated_cover_letter": llm_result_cover_letter.get("updated_cover_letter", "No cover letter generated."),
+        "improvements": llm_result_resume.get("improvements_list", [])
     })
