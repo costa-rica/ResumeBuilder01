@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResumeBuilder01 - Home</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <!-- Spinner Overlay -->
     <div id="spinner-overlay" class="spinner-overlay hidden">
@@ -25,7 +27,7 @@
         {% endif %}
 
         <form action="/submit" method="post" enctype="multipart/form-data" class="section-card">
-            
+
             <div class="input-group">
                 <label for="resume_file">1. Upload Resume (.docx)</label>
                 <input type="file" name="resume_file" id="resume_file" accept=".docx" required>
@@ -33,7 +35,8 @@
 
             <div class="input-group">
                 <label for="job_description">2. Job Requirements</label>
-                <textarea name="job_description" id="job_description" placeholder="Paste the job description here..." required></textarea>
+                <textarea name="job_description" id="job_description" placeholder="Paste the job description here..."
+                    required></textarea>
             </div>
 
             <div class="input-group">
@@ -47,6 +50,10 @@
                         <input type="radio" name="model_choice" value="gpt-4o-mini">
                         <span>gpt-4o-mini (OpenAI)</span>
                     </label>
+                    <label class="radio-item">
+                        <input type="radio" name="model_choice" value="openai-gpt-oss-120b">
+                        <span>openai-gpt-oss-120b (DoAI)</span>
+                    </label>
                 </div>
             </div>
 
@@ -58,4 +65,5 @@
 
     <script src="/static/js/script.js"></script>
 </body>
+
 </html>

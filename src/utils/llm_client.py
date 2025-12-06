@@ -1,6 +1,6 @@
 import requests
 import json
-from src.config import URL_BASE_OPENAI, KEY_OPENAI, URL_BASE_OLLAMA, KEY_OLLAMA
+from src.config import URL_BASE_OPENAI, KEY_OPENAI, URL_BASE_OLLAMA, KEY_OLLAMA, URL_BASE_DOAI, KEY_DOAI
 
 def process_with_ollama(prompt: str, model: str = "mistral:instruct") -> dict:
     """
@@ -66,6 +66,47 @@ def process_with_openai(prompt: str, model: str = "gpt-4o-mini") -> dict:
             "improvements_list": [f"Error: {str(e)}"]
         }
 
+def process_with_doai(prompt: str, model: str = "openai-gpt-oss-120b") -> dict:
+    """
+    Sends a prompt to the DoAI API.
+    """
+    url = f"{URL_BASE_DOAI}/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {KEY_DOAI}",
+        "Content-Type": "application/json"
+    }
+
+    # DoAI Chat completion format (similar to OpenAI)
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": prompt}
+        ],
+        # "response_format": {"type": "json_object"}, # Check if DoAI supports this, otherwise rely on prompt
+        "max_tokens": 2048
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=payload, timeout=60)
+        response.raise_for_status()
+        data = response.json()
+        content = data['choices'][0]['message']['content']
+        # Try to clean markdown code blocks if present
+        if "```json" in content:
+            content = content.split("```json")[1].split("```")[0].strip()
+        elif "```" in content:
+             content = content.split("```")[1].split("```")[0].strip()
+             
+        return json.loads(content)
+    except Exception as e:
+         print(f"Error calling DoAI: {e}")
+         return {
+            "updated_resume": "Error generating resume.",
+            "updated_cover_letter": "Error generating cover letter.",
+            "improvements_list": [f"Error: {str(e)}"]
+        }
+
 def generate_tailored_resume(resume_text: str, job_desc: str, model_choice: str, template_text: str) -> dict:
     """
     Controller to construct prompt and call the appropriate model.
@@ -76,5 +117,10 @@ def generate_tailored_resume(resume_text: str, job_desc: str, model_choice: str,
     
     if "mistral" in model_choice.lower():
         return process_with_ollama(prompt, model="mistral:instruct")
+    elif "gpt-4" in model_choice.lower():
+        return process_with_openai(prompt, model="gpt-4o-mini")
+    elif "openai-gpt-oss" in model_choice.lower():
+         return process_with_doai(prompt, model="openai-gpt-oss-120b")
     else:
+        # Default fallback
         return process_with_openai(prompt, model="gpt-4o-mini")
