@@ -46,7 +46,7 @@ async def submit(
             "request": request,
              "error": f"Error reading prompt template: {str(e)}"
         })
-    # 2. Read the cover letter prompt template
+    # 3. Read the cover letter prompt template
     try:
         prompt_template_cover_letter = read_prompt_template("src/templates/markdown/prompt03.md")
     except Exception as e:
@@ -54,19 +54,28 @@ async def submit(
             "request": request,
              "error": f"Error reading prompt template: {str(e)}"
         })
-
+    # 4. Read the cover letter prompt template
+    try:
+        prompt_template_scoring_and_improvements = read_prompt_template("src/templates/markdown/prompt03-scoring.md")
+    except Exception as e:
+         return templates.TemplateResponse("index.html", {
+            "request": request,
+             "error": f"Error reading prompt template: {str(e)}"
+        })
 
     # 3. Call LLM
     llm_result_resume = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template_resume)
     llm_result_cover_letter = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template_cover_letter)
-
+    llm_result_scoring_and_improvements = generate_tailored_resume(resume_text, job_description, model_choice, prompt_template_scoring_and_improvements)
+    llm_result_new_resume_score = generate_tailored_resume(llm_result_resume.get("updated_resume", "No resume generated."), job_description, model_choice, prompt_template_scoring_and_improvements)
     # 4. Render Result Page
     # The result should match the keys expected in result.html
     return templates.TemplateResponse("result.html", {
         "request": request,
-        "resume_qualifier_match": "85%", # Placeholder
-        "revised_match": "95%", # Placeholder
+        "resume_qualifier_match": f'{llm_result_scoring_and_improvements.get("resume_qualifier_match", "No match generated.")}%',
+        "revised_match": f'{llm_result_new_resume_score.get("resume_qualifier_match", "No match generated.")}%',
         "updated_resume": llm_result_resume.get("updated_resume", "No resume generated."),
         "updated_cover_letter": llm_result_cover_letter.get("updated_cover_letter", "No cover letter generated."),
-        "improvements": llm_result_resume.get("improvements_list", [])
+        # "improvements": llm_result_resume.get("improvements_list", [])
+        "improvements": llm_result_new_resume_score.get("improvements_list", [])
     })
